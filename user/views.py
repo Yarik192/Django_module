@@ -1,4 +1,3 @@
-from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
