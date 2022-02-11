@@ -4,9 +4,9 @@ from online_store.models import Product, Purchase
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["name_of_product", "price", "quantity_in_stock"]
 
 
 @admin.register(Purchase)
 class PurchaseAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["customer", "product", "count"]

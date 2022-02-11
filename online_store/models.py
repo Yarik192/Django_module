@@ -1,11 +1,12 @@
 from django.db import models
+from user.models import UserProfile
 
 
 class Product(models.Model):
     name_of_product = models.CharField(max_length=60)
     about_of_product = models.TextField(help_text="Расскажите о товаре")
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity_in_stock = models.IntegerField()
+    quantity_in_stock = models.PositiveIntegerField(default=0, help_text="Количество на складе")
 
     def __str__(self):
         return self.name_of_product
@@ -17,9 +18,26 @@ class Product(models.Model):
 
 
 class Purchase(models.Model):
-    customer = ...
+    customer = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    count = models.IntegerField()
+    count = models.PositiveIntegerField(default=0)
+    date_of_purchase = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.customer, self.product
+
+    class Meta:
+        verbose_name = "Покупка"
+        verbose_name_plural = "Покупки"
+
+
+class ReturnPurchase(models.Model):
+    product = models.ForeignKey(Purchase, on_delete=models.CASCADE)
+    time_of_request = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.product
+
+    class Meta:
+        verbose_name = "Возврат покупки"
+        verbose_name_plural = "Возврат покупок"
