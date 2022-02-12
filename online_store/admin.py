@@ -1,5 +1,5 @@
 from django.contrib import admin
-from online_store.models import Product, Purchase
+from online_store.models import Product, Purchase, ReturnPurchase
 
 
 @admin.register(Product)
@@ -10,3 +10,8 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Purchase)
 class PurchaseAdmin(admin.ModelAdmin):
     list_display = ["customer", "product", "count"]
+
+
+@admin.register(ReturnPurchase)
+class ReturnPurchaseAdmin(admin.ModelAdmin):
+    list_display = ["product", "time_of_request"]

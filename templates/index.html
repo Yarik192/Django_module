@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% block title %}<title>Main</title>{% endblock title %}
+    <title>{% block title %}Main{% endblock title %}</title>
 </head>
 <body>
 <header>
 <div>
+<h2><a href="{% url "homepage" %}">Главная страница</a> </h2>
 <h2>User: {{ request.user.username|default:"Unknown" }}</h2>
     <ul>
         {% if not request.user.is_authenticated %}
@@ -21,7 +22,10 @@
 </header>
 <div>
 {% block content %}
-
+    <a href="{% url "products" %}">Все товары</a><br>
+{% if request.user.is_staff %}
+    ><a href="{% url "all_returns" %}">Возвраты</a>
+    {% endif %}
 {% endblock content %}
 </div>
 <footer>

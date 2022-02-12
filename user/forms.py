@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class CustomAuthenticationForm(forms.Form):
-    username = forms.CharField(max_length=254)
+    username = forms.CharField(max_length=256)
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
     def clean(self):

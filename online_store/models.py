@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from user.models import UserProfile
 
@@ -18,13 +19,13 @@ class Product(models.Model):
 
 
 class Purchase(models.Model):
-    customer = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     count = models.PositiveIntegerField(default=0)
-    date_of_purchase = models.DateField(auto_now_add=True)
+    date_of_purchase = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.customer, self.product
+        return str(self.product)
 
     class Meta:
         verbose_name = "Покупка"
@@ -33,10 +34,10 @@ class Purchase(models.Model):
 
 class ReturnPurchase(models.Model):
     product = models.ForeignKey(Purchase, on_delete=models.CASCADE)
-    time_of_request = models.DateField(auto_now_add=True)
+    time_of_request = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.product
+        return str(self.product)
 
     class Meta:
         verbose_name = "Возврат покупки"

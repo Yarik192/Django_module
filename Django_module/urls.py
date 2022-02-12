@@ -21,5 +21,6 @@ from Django_module.views import homepage
 urlpatterns = [
     path("", homepage, name="homepage"),
     path('admin/', admin.site.urls),
-    path("", include("user.urls"))
+    path("", include("user.urls")),
+    path("", include("online_store.urls"))
 ]

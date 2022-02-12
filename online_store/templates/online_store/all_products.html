@@ -1,0 +1,35 @@
+{% extends "index.html"%}
+
+{% block title %} Все товары {% endblock title %}
+
+{% block content %}
+    {% if request.user.is_staff %}
+        <div class="products">
+            <a href="{% url "add_product" %}"><h2>Добавить товар</h2></a>
+        {% for object in objects.reverse %}
+            <div class="product">
+            <hr>
+            <h1>Товар: {{ object.name_of_product }}</h1>
+
+            <h2>О товаре: {{ object.about_of_product  }}
+                <a href="{% url "homepage" %}">Изменить</a></h2>
+
+            <h3>Цена: {{ object.price }}</h3>
+
+            <h3>Количество на складе: {{ object.quantity_in_stock }}</h3>
+            </div>
+        {% endfor %}
+        </div>
+        {% else %}
+        {% for object in objects %}
+            <hr>
+            <h1>Товар: {{ object.name_of_product }}</h1>
+
+            <h2>О товаре: {{ object.about_of_product  }}</h2>
+
+            <h3>Цена: {{ object.price }}</h3>
+
+            <h3>Количество на складе: {{ object.quantity_in_stock }}</h3>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}

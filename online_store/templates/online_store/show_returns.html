@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+
+{% block title %}Возвраты{% endblock title %}
+
+{% block content %}
+    {% for object in objects %}
+        <hr>
+        <h2>Покупатель: {{ object.product.customer }}</h2>
+        <h3>Товар: {{ object.product.product }}</h3>
+        <h3>Дата покупки: {{ object.product.date_of_purchase }}</h3>
+        <h3>Дата запроса возврата: {{ object.time_of_request }}</h3>
+        <input type="button" value="Подтвердить" name="confirm">
+        <input type="button" value="Отклонить" name="reject">
+    {% endfor %}
+{% endblock content %}
