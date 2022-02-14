@@ -1,4 +1,3 @@
-from django import forms
 from django.forms import ModelForm
 from online_store.models import Product, Purchase
 

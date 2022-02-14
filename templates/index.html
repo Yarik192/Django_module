@@ -14,17 +14,16 @@
         <li><a href="{% url "register" %}">Register</a></li>
         <li><a href="{% url "login" %}">Login</a></li>
         {% else %}
-        <li><a href="{% url "logout" %}">Logout
-        </a></li>
+        <li><a href="{% url "logout" %}">Logout</a></li>
         {% endif %}
     </ul>
 </div>
 </header>
 <div>
 {% block content %}
-    <a href="{% url "products" %}">Все товары</a><br>
+    <a href="{% url "products" %}"><h2>Все товары</h2></a><br>
 {% if request.user.is_staff %}
-    ><a href="{% url "all_returns" %}">Возвраты</a>
+    <a href="{% url "all_returns" %}"><h2>Возвраты</h2></a>
     {% endif %}
 {% endblock content %}
 </div>

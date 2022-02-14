@@ -1,15 +1,17 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.views.generic import ListView
+
 from online_store.models import Product, Purchase, ReturnPurchase
 from online_store.forms import ProductForm
 
 
-def all_products(request: HttpRequest) -> HttpResponse:
-    products = Product.objects.all()
-    context = {
-        "objects": products
-    }
-    return render(request, "online_store/all_products.html", context)
+class ProductsListView(ListView):
+    model = Product
+
+
+class ShowReturnsListView(ListView):
+    model = ReturnPurchase
 
 
 def add_product(request: HttpRequest) -> HttpResponse:
@@ -33,14 +35,6 @@ def edit_product(request: HttpRequest) -> HttpResponse:
 
     }
     return render(request, "online_store/edit_product.html", context)
-
-
-def show_returns(request: HttpRequest) -> HttpResponse:
-    objects = ReturnPurchase.objects.all()
-    context = {
-        "objects": objects
-    }
-    return render(request, "online_store/show_returns.html", context)
 
 
 def new_purchase(request: HttpRequest) -> HttpResponse:

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 
 
 class UserProfile(models.Model):
@@ -11,3 +11,7 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+# class Profile(AbstractUser):
+#     balance = models.PositiveIntegerField(default=10_000)
