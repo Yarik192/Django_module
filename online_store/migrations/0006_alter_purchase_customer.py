@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user', '0005_userprofile_delete_profile'),
+        ('users', '0005_userprofile_delete_profile'),
         ('online_store', '0005_alter_purchase_customer'),
     ]
 
@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='purchase',
             name='customer',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='user.userprofile'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.userprofile'),
         ),
     ]

@@ -1,7 +1,7 @@
 from django.contrib import admin
-from user.models import UserProfile
+from users.models import CustomUser
 
 
-@admin.register(UserProfile)
+@admin.register(CustomUser)
 class AdminUserProfile(admin.ModelAdmin):
     pass

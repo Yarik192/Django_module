@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-from user.models import UserProfile
+# from users.models import UserProfile
+from Django_module import settings
 
 
 class Product(models.Model):
@@ -19,7 +20,7 @@ class Product(models.Model):
 
 
 class Purchase(models.Model):
-    customer = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     count = models.PositiveIntegerField(default=0)
     date_of_purchase = models.DateTimeField(auto_now_add=True)

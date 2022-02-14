@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('user', '0001_initial'),
+        ('users', '0001_initial'),
     ]
 
     operations = [
@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('count', models.PositiveIntegerField(default=0)),
                 ('date_of_purchase', models.DateField(auto_now_add=True)),
-                ('customer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='user.userprofile')),
+                ('customer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.userprofile')),
                 ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='online_store.product')),
             ],
             options={
