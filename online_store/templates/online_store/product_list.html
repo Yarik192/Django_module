@@ -12,7 +12,7 @@
             <h1>Товар: {{ object.name_of_product }}</h1>
 
             <h2>О товаре: {{ object.about_of_product  }}
-                <a href="{% url "homepage" %}">Изменить</a></h2>
+                <a href="{% url "edit_product" object.pk%}">Изменить</a></h2>
 
             <h3>Цена: {{ object.price }}</h3>
 

@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+
+{% block title %} О товаре {% endblock title %}
+
+{% block content %}
+    <a href="{% url "products" %}"><h2>Все товары</h2></a>
+<ul>
+    <li><h3>Название: {{ object.name_of_product }}</h3></li>
+    <li><h3>О товаре: {{ object.about_of_product }}</h3></li>
+    <li><h3>Цена: {{ object.price }}</h3></li>
+    <li><h3>Количество на складе: {{ object.quantity_in_stock }}</h3></li>
+</ul>
+
+{% endblock content %}

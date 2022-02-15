@@ -1,8 +1,10 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.urls import reverse_lazy
+from django.utils import timezone
+from django.views.generic import ListView, FormView, CreateView, UpdateView, DetailView
 
-from online_store.models import Product, Purchase, ReturnPurchase
+from online_store.models import Product, ReturnPurchase
 from online_store.forms import ProductForm
 
 
@@ -14,27 +16,32 @@ class ShowReturnsListView(ListView):
     model = ReturnPurchase
 
 
-def add_product(request: HttpRequest) -> HttpResponse:
-    if request.method == "POST":
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            Product.objects.create(
-                name_of_product=form.cleaned_data.get("name_of_product"),
-                about_of_product=form.cleaned_data.get("about_of_product"),
-                price=form.cleaned_data.get("price"),
-                quantity_in_stock=form.cleaned_data.get("quantity_in_stock")
-            )
-            return HttpResponseRedirect("/")
-    if request.method == "GET":
-        form = ProductForm
-    return render(request, "online_store/add_product.html", {"form": form})
+class ProductDetailView(DetailView):
+    model = Product
+    pk_url_kwarg = "pk"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
 
 
-def edit_product(request: HttpRequest) -> HttpResponse:
-    context = {
+class AddProductFormView(FormView):
+    template_name = "online_store/add_product.html"
+    form_class = ProductForm
+    success_url = reverse_lazy("homepage")
 
-    }
-    return render(request, "online_store/edit_product.html", context)
+    def form_valid(self, form):
+        form.save()
+        return super(AddProductFormView, self).form_valid(form)
+
+
+class EditProductUpdateView(UpdateView):
+    model = Product
+    fields = "__all__"
+    template_name = "online_store/edit_product.html"
+    pk_url_kwarg = "pk"
+    success_url = reverse_lazy("products")
 
 
 def new_purchase(request: HttpRequest) -> HttpResponse:
