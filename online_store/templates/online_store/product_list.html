@@ -26,10 +26,24 @@
             <h1>Товар: {{ object.name_of_product }}</h1>
 
             <h2>О товаре: {{ object.about_of_product  }}</h2>
-
+            <form method="post">
+            {% csrf_token %}
+            {{ form.count }}
+                {% if messages %}
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                {% endif %}
+            <input type="hidden" value="{{ object.pk }}" name="pk">
+            <input type="submit" value="Купить">
+            </form>
             <h3>Цена: {{ object.price }}</h3>
 
+            {% if object.quantity_in_stock >= 1 %}
             <h3>Количество на складе: {{ object.quantity_in_stock }}</h3>
+            {% else %}
+            <h3>Нет в наличии</h3>
+            {% endif %}
         {% endfor %}
     {% endif %}
 {% endblock content %}
