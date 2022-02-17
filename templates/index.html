@@ -7,11 +7,17 @@
 <body>
 <header>
 <div class="main">
-<h2><a href="{% url "homepage" %}">Главная страница</a> </h2>
+<a href="{% url "homepage" %}"><h2>Главная страница</h2></a>
+<a href="{% url "my_purchase" %}"><h2>Мои покупки</h2></a>
+{% if messages %}
+                {% for message in messages %}
+                        <h1>{{ message }}</h1>
+                {% endfor %}
+{% endif %}
 <hr>
 <div class="profile">
-    <h2>User: {{ request.user.username|default:"Unknown" }} </h2>
-    <h2>Balance {{ request.user.balance }}</h2>
+    <h2>User: {{ request.user.username|default:"Нужно войти для отображения никнейма" }} </h2>
+    <h2>Balance {{ request.user.balance|default:"Нужно войти для отображения баланса" }}</h2>
     </div>
     <ul>
         {% if not request.user.is_authenticated %}
