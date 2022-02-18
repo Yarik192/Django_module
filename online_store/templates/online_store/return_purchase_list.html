@@ -9,8 +9,16 @@
         <h3>Товар: {{ object.product.product }}</h3>
         <h3>Дата покупки: {{ object.product.date_of_purchase }}</h3>
         <h3>Дата запроса возврата: {{ object.time_of_request }}</h3>
-        <input type="submit" value="Подтвердить" name="confirm">
-        <input type="submit" value="Отклонить" name="reject">
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ object.pk }}" name="pk">
+            <input type="submit" value="Подтвердить" name="confirm">
+        </form>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ object.pk }}" name="pk">
+            <input type="submit" value="Отклонить" name="reject">
+        </form>
     {% endfor %}
 
 {% endblock content %}

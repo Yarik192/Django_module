@@ -4,7 +4,7 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
-    {% for object in object_list %}
+    {% for object in object_list.reverse %}
         {% if object.customer == request.user %}
             <hr>
             <h1>{{ object.product }}</h1>

@@ -55,11 +55,18 @@ def show_returns(request: HttpRequest) -> HttpResponse:
     context = {
         "object_list": object_list
     }
-    if request.GET.get("confirm"):
-        ...
-    else:
-        ...
-    return render(request, "online_store/returnpurchase_list.html", context)
+    if request.POST.get("confirm"):
+        purchase_r = ReturnPurchase.objects.get(pk=request.POST["pk"])
+        purchase_r.product.product.quantity_in_stock += purchase_r.product.count
+        purchase_r.product.customer.balance += purchase_r.product.product.price * purchase_r.product.count
+        purchase_r.delete()
+        purchase_r.product.delete()
+        purchase_r.product.product.save()
+        purchase_r.product.customer.save()
+    elif request.POST.get("reject"):
+        purchase_r = ReturnPurchase.objects.get(pk=request.POST["pk"])
+        purchase_r.delete()
+    return render(request, "online_store/return_purchase_list.html", context)
 
 
 class ShowReturnsListView(ListView):
@@ -87,9 +94,11 @@ class MyPurchaseListView(ListView, FormView):
 
     def form_valid(self, form):
         purchase = Purchase.objects.get(pk=self.request.POST["pk"])
-        if purchase.date_of_purchase + timedelta(minutes=180) < timezone.now():
-            print("Вернуть нельзя")
-            return redirect("products")
+        if purchase.date_of_purchase + timedelta(seconds=40) > timezone.now():
+            messages.info(request=self.request, message="Ваш запрос принят")
+            ReturnPurchase.objects.create(
+                product=purchase)
+            return redirect("my_purchase")
         else:
-            print("Вернуть можно")
+            messages.info(request=self.request, message="Время истекло")
             return redirect("my_purchase")
