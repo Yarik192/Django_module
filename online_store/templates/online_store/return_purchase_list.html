@@ -3,6 +3,7 @@
 {% block title %}Возвраты{% endblock title %}
 
 {% block content %}
+    {% if request.user.is_staff %}
     {% for object in object_list %}
         <hr>
         <h2>Покупатель: {{ object.product.customer.user.username }}</h2>
@@ -20,5 +21,7 @@
             <input type="submit" value="Отклонить" name="reject">
         </form>
     {% endfor %}
-
+        {% else %}
+        <h1>Данная страница доступна только сотрудникам</h1>
+    {% endif %}
 {% endblock content %}

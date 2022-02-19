@@ -4,7 +4,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import ListView, FormView, UpdateView, DetailView
+from django.views.generic import ListView, FormView, UpdateView
 from online_store.forms import PurchaseForm, ReturnPurchaseForm
 from online_store.models import Product, ReturnPurchase, Purchase
 from online_store.forms import ProductForm
@@ -73,16 +73,10 @@ class ShowReturnsListView(ListView):
     model = ReturnPurchase
 
 
-class ProductDetailView(DetailView):
-    model = Product
-    pk_url_kwarg = "pk"
-
-
 class EditProductUpdateView(UpdateView):
     model = Product
     fields = "__all__"
     template_name = "online_store/edit_product.html"
-    pk_url_kwarg = "pk"
     success_url = reverse_lazy("products")
 
 
@@ -94,7 +88,7 @@ class MyPurchaseListView(ListView, FormView):
 
     def form_valid(self, form):
         purchase = Purchase.objects.get(pk=self.request.POST["pk"])
-        if purchase.date_of_purchase + timedelta(seconds=40) > timezone.now():
+        if purchase.date_of_purchase + timedelta(seconds=180) > timezone.now():
             messages.info(request=self.request, message="Ваш запрос принят")
             ReturnPurchase.objects.create(
                 product=purchase)

@@ -3,9 +3,13 @@
 {% block title %} Редактирование товара {% endblock title %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Обновить">
-</form>
+    {% if request.user.is_staff %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Обновить">
+        </form>
+    {% else %}
+        <h1>Данная страница доступна только сотрудникам</h1>
+    {% endif %}
 {% endblock content %}
