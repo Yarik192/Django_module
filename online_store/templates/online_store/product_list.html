@@ -14,7 +14,7 @@
                 {% if request.user.is_staff %}
                     <a href="{% url "edit_product" object.pk%}">Изменить</a></h2>
                 {% endif %}
-            {% if not request.user.is_staff %}
+            {% if not request.user.is_staff and request.user.is_authetificated %}
             <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
