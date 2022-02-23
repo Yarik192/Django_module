@@ -1,0 +1,23 @@
+{%  extends "index.html" %}
+
+{% block title %} Мои товары {% endblock title %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+    {% for object in object_list.reverse %}
+        {% if object.customer == request.user %}
+            <hr>
+            <h1>{{ object.product }}</h1>
+            <h2>{{ object.count }}</h2>
+            <form method="post">
+            {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Вернуть товар">
+                <input type="hidden" value="{{ object.pk }}" name="pk">
+            </form>
+        {% endif %}
+    {% endfor %}
+    {% else %}
+        <h1>Нужно войти в акканут для просмотра этой страницы</h1>
+    {% endif %}
+{% endblock content %}

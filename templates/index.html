@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Main{% endblock title %}</title>
+</head>
+<body>
+<header>
+<div class="main">
+<a href="{% url "homepage" %}"><h2>Главная страница</h2></a>
+<a href="{% url "products" %}"><h2>Все товары</h2></a>
+{% if not request.user.is_staff %}
+<a href="{% url "my_purchase" %}"><h2>Мои покупки</h2></a>
+{% endif %}
+{% if request.user.is_staff %}
+    <a href="{% url "all_returns" %}"><h2>Возвраты</h2></a>
+    {% endif %}
+{% if messages %}
+    {% for message in messages %}
+        <h1>{{ message }}</h1>
+    {% endfor %}
+{% endif %}
+<hr>
+<div class="profile">
+    <h2>User: {{ request.user.username|default:"Нужно войти для отображения никнейма" }} </h2>
+    <h2>Balance {{ request.user.balance|default:"Нужно войти для отображения баланса" }}</h2>
+    </div>
+    <ul>
+        {% if not request.user.is_authenticated %}
+            <hr>
+        <li><a href="{% url "register" %}">Register</a></li>
+        <li><a href="{% url "login" %}">Login</a></li>
+        {% else %}
+        <li><a href="{% url "logout" %}">Logout</a></li>
+        {% endif %}
+    </ul>
+    <hr>
+</div>
+</header>
+<div>
+{% block content %}
+
+{% endblock content %}
+</div>
+<footer>
+    {% block footer %}
+
+    {% endblock footer %}
+</footer>
+</body>
+</html>

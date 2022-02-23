@@ -1,0 +1,30 @@
+{% extends "index.html"%}
+
+{% block title %} Все товары {% endblock title %}
+
+{% block content %}
+    {% if request.user.is_staff %}
+            <a href="{% url "add_product" %}"><h2>Добавить товар</h2></a>
+    {% endif %}
+        {% for object in object_list.reverse %}
+            <hr>
+            <h1>Товар: {{ object.name_of_product }}</h1>
+
+            <h2>О товаре: {{ object.about_of_product  }}
+                {% if request.user.is_staff %}
+                    <a href="{% url "edit_product" object.pk%}">Изменить</a></h2>
+                {% endif %}
+            {% if not request.user.is_staff and request.user.is_authenticated %}
+            <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" value="{{ object.pk }}" name="pk">
+            <input type="submit" value="Купить">
+            </form>
+            {% endif %}
+
+            <h3>Цена: {{ object.price }}</h3>
+
+            <h3>Количество на складе: {{ object.quantity_in_stock }}</h3>
+        {% endfor %}
+{% endblock content %}
